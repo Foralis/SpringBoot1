@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title>book</title>
+</head>
+
+<body>
+<p th:text="${book.toString()}"/>
+<br>
+
+<td>
+    <div th:if="${isOrdered == false}">
+        <form th:method="POST" th:action="@{/books/order/{id}(id=${book.getId()})}">
+            <label for="user">Order book</label>
+            <select th:object="${user}" th:field="*{id}" id="user">
+                <option th:each="user : ${users}" th:value="${user.getId()}" th:text="${user.getName()}"></option>
+            </select>
+
+            <input type="submit" value="Order book">
+        </form>
+    </div>
+    <div th:if="${isOrdered == true}">
+        <p th:text="'The book has booked by ' + ${user.getName()}">text</p>
+        <br>
+        <form th:method="DELETE" th:action="@{/books/order/{id}(id=${book.getId()})}">
+            <input type="submit" value="Free book">
+        </form>
+    </div>
+</td>
+
+<hr>
+<br>
+<a th:href="@{/books/{id}/edit(id=${book.getId()})}">edit</a>
+<form th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}">
+    <input type="submit" value="Delete">
+</form>
+</body>
+
+</html>
